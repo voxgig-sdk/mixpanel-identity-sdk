@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Identity | Identity API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Identity API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/mixpanel-identity-sdk">voxgig-sdk/mixpanel-identity-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Identity API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a aria-current="page" href="../api/identity.html">Identity</a><div class="nav-sections"><a class="nav-section" href="#post-import">POST /import</a>
+<a class="nav-section" href="#post-trackcreate-identity">POST /track#create-identity</a>
+<a class="nav-section" href="#post-trackidentity-create-alias">POST /track#identity-create-alias</a></div></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="identity">Identity</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-import"><code>/import</code></a></td>
+<td><code>create</code></td>
+<td>A 200 response indicates all events were successfully ingested</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-trackcreate-identity"><code>/track#create-identity</code></a></td>
+<td><code>create</code></td>
+<td>* <code>1</code> - All data objects provided are valid. This does not signify a valid project token or secret. * <code>0</code> - One or more data objects in the body are invalid.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-trackidentity-create-alias"><code>/track#identity-create-alias</code></a></td>
+<td><code>create</code></td>
+<td>* <code>1</code> - All data objects provided are valid. This does not signify a valid project token or secret. * <code>0</code> - One or more data objects in the body are invalid.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>num_records_imported</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-import" class="operation" data-method="post"><code>POST</code> /import</h3>
+<p>Operation ID: <code>identity-merge</code>.</p>
+<p>Authentication: basic token (<code>ServiceAccount</code>) or basic token (<code>ProjectSecret</code>) or bearer token (<code>OAuthToken</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>strict</code> | <code>query</code> | <code>enum: 0, 1</code> | Yes | When set to 1 (recommended), Mixpanel will validate the batch and return errors per event that failed. |
+| <code>project_id</code> | <code>query</code> | <code>string</code> | No | The Mixpanel project_id, used to authenticate service account credentials (do not provide if using secret auth). |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].event</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>This is the name of the event. If you're loading data from a data warehouse, we recommend using the name of the table as the name of the event.</td>
+</tr>
+<tr>
+<td><code>[].properties</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>properties</td>
+</tr>
+<tr>
+<td><code>[].properties.$distinct_ids</code></td>
+<td><code>array of string</code></td>
+<td>Yes</td>
+<td>The two distinct_ids to merge together.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-a-200-response-indicates-all-events-were-successfully-ingested" class="status" data-status="2xx">200: A 200 response indicates all events were successfully ingested</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>num_records_imported</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-a-400-response-indicates-that-some-events-failed-validation" class="status" data-status="4xx">400: A 400 response indicates that some events failed validation</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failed_records</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failed_records[].field</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failed_records[].index</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failed_records[].insert_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>failed_records[].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>num_records_imported</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-a-401-response-indicates-invalid-service-account-credentials" class="status" data-status="4xx">401: A 401 response indicates invalid service account credentials</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-trackcreate-identity" class="operation" data-method="post"><code>POST</code> /track#create-identity</h3>
+<p>Operation ID: <code>create-identity</code>.</p>
+<p>Authentication: not required.</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/x-www-form-urlencoded</code></p>
+<p>The request body is <code>object and object</code>.</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200--1---all-data-objects-provided-are-valid-this-does-not-signify-a-valid-project-token-or-secret--0---one-or-more-data-objects-in-the-body-are-invalid" class="status" data-status="2xx">200: * <code>1</code> - All data objects provided are valid. This does not signify a valid project token or secret. * <code>0</code> - One or more data objects in the body are invalid.</h5>
+<p><code>text/plain</code></p>
+<p>The response is <code>enum: 1, 0</code>.</p>
+<h5 id="401-unauthorized" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: error</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$ref</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-trackidentity-create-alias" class="operation" data-method="post"><code>POST</code> /track#identity-create-alias</h3>
+<p>Operation ID: <code>identity-create-alias</code>.</p>
+<p>Authentication: not required.</p>
+<h4 id="request-body-2">Request body</h4>
+<p><code>application/x-www-form-urlencoded</code></p>
+<p>The request body is <code>object and object</code>.</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200--1---all-data-objects-provided-are-valid-this-does-not-signify-a-valid-project-token-or-secret--0---one-or-more-data-objects-in-the-body-are-invalid-1" class="status" data-status="2xx">200: * <code>1</code> - All data objects provided are valid. This does not signify a valid project token or secret. * <code>0</code> - One or more data objects in the body are invalid.</h5>
+<p><code>text/plain</code></p>
+<p>The response is <code>enum: 1, 0</code>.</p>
+<h5 id="401-unauthorized-1" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: error</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-1" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$ref</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

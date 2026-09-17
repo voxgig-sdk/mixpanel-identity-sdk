@@ -1,0 +1,20 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 1
+  metrics: count: path: 3
+  metrics: count: method: 3
+
+  entity: identity: {
+    path: "/import": {
+      op: create: method: *POST
+    }
+    path: "/track#create-identity": {
+      op: create: method: *POST
+    }
+    path: "/track#identity-create-alias": {
+      op: create: method: *POST
+    }
+  }
+
+}

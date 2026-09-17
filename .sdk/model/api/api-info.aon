@@ -1,0 +1,50 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        url: "https://mixpanel.com/get-support"
+      }
+      description: "APIs to identify anonymous user IDs to their canonical user ID."
+      license: {
+        name: "MIT"
+        url: "https://opensource.org/licenses/MIT"
+      }
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Basic"
+        scheme: "ServiceAccount"
+        type: "http"
+      }
+      servers: [
+        {
+          description: "Mixpanel's data collection server."
+          url: "https://{region}.mixpanel.com"
+          variables: {
+            region: {
+              default: "api"
+              description: `The server location to be used:
+* \`api\` - The default (US) servers used for most projects
+* \`api-eu\` - EU servers if you are enrolled in EU Data Residency
+* \`api-in\` - India servers if you are enrolled in India Data Residency
+`
+              enum: [
+                "api"
+                "api-eu"
+                "api-in"
+              ]
+            }
+          }
+        }
+      ]
+      summary: "APIs to identify anonymous user IDs to their canonical user ID."
+      title: "Identity API"
+      version: "1.0.0"
+      website: "https://mixpanel.com/get-support"
+    }
+  }
+}
+
