@@ -167,14 +167,17 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "code",
+						"title": "Code",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "num_records_imported",
+						"title": "Num Records Imported",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "status",
+						"title": "Status",
 						"type": "`$STRING`",
 					},
 				},
@@ -185,24 +188,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"query": []any{
-										map[string]any{
-											"kind": "query",
-											"name": "project_id",
-											"orig": "project_id",
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"example": "1",
-											"kind": "query",
-											"name": "strict",
-											"orig": "strict",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/import",
@@ -211,22 +196,40 @@ func MakeConfig() map[string]any {
 										"lit": "import",
 									},
 								},
+								"parts": []any{
+									"import",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "project_id",
+											"orig": "project_id",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "strict",
+											"orig": "strict",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+											"example": "1",
+										},
+									},
+								},
 								"select": map[string]any{
 									"exist": []any{
 										"project_id",
 										"strict",
 									},
 								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"parts": []any{
-									"import",
-								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/track#create-identity",
@@ -235,17 +238,18 @@ func MakeConfig() map[string]any {
 										"lit": "track#create-identity",
 									},
 								},
-								"select": map[string]any{},
+								"parts": []any{
+									"track#create-identity",
+								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"track#create-identity",
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/track#identity-create-alias",
@@ -254,14 +258,16 @@ func MakeConfig() map[string]any {
 										"lit": "track#identity-create-alias",
 									},
 								},
-								"select": map[string]any{},
+								"parts": []any{
+									"track#identity-create-alias",
+								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"track#identity-create-alias",
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},

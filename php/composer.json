@@ -1,5 +1,5 @@
 {
-  "name": "voxgig-sdk/mixpanel-identity",
+  "name": "voxgig-sdk/mixpanel-identity-sdk",
   "description": "Unofficial generated PHP SDK for the Identity public API. Not affiliated with or endorsed by the upstream API provider.",
   "type": "library",
   "keywords": ["voxgig", "sdk", "generated-sdk", "openapi", "api-client", "mixpanel-identity"],

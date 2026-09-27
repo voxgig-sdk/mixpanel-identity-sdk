@@ -163,14 +163,17 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "code",
+            ["title"] = "Code",
             ["type"] = "`$INTEGER`",
           },
           {
             ["name"] = "num_records_imported",
+            ["title"] = "Num Records Imported",
             ["type"] = "`$INTEGER`",
           },
           {
             ["name"] = "status",
+            ["title"] = "Status",
             ["type"] = "`$STRING`",
           },
         },
@@ -181,24 +184,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "project_id",
-                      ["orig"] = "project_id",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["example"] = "1",
-                      ["kind"] = "query",
-                      ["name"] = "strict",
-                      ["orig"] = "strict",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/import",
@@ -207,22 +192,40 @@ local function make_config()
                     ["lit"] = "import",
                   },
                 },
+                ["parts"] = {
+                  "import",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "project_id",
+                      ["orig"] = "project_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "strict",
+                      ["orig"] = "strict",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                      ["example"] = "1",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "project_id",
                     "strict",
                   },
                 },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["parts"] = {
-                  "import",
-                },
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/track#create-identity",
@@ -231,17 +234,18 @@ local function make_config()
                     ["lit"] = "track#create-identity",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "track#create-identity",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "track#create-identity",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/track#identity-create-alias",
@@ -250,14 +254,16 @@ local function make_config()
                     ["lit"] = "track#identity-create-alias",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "track#identity-create-alias",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "track#identity-create-alias",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },

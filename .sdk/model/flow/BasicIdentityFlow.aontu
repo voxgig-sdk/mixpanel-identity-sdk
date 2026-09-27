@@ -1,0 +1,18 @@
+# BasicIdentityFlow
+
+main: kit: flow: BasicIdentityFlow:
+{
+  entity: "identity",
+  kind: "basic",
+  name: "BasicIdentityFlow",
+  step: [
+    {
+      i: {
+        ref: "identity_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicIdentityFlow"
+}

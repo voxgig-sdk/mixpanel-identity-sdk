@@ -1,0 +1,118 @@
+# Entity: identity
+
+main: kit: entity: identity: {
+
+  alias: field: {}
+
+  fields: {
+    code: {
+      h: "Code"
+      n: "code"
+      r: false
+      t: "`$INTEGER`"
+    }
+    num_records_imported: {
+      h: "Num Records Imported"
+      n: "num_records_imported"
+      r: false
+      t: "`$INTEGER`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  name: "identity"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /import"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "project_id"
+                or: "project_id"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "1"
+                k: "query"
+                n: "strict"
+                or: "strict"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/import"
+          q: {
+            exist: [
+              "project_id"
+              "strict"
+            ]
+          }
+          s: [
+            {
+              lit: "import"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /track#create-identity"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/track#create-identity"
+          s: [
+            {
+              lit: "track#create-identity"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /track#identity-create-alias"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/track#identity-create-alias"
+          s: [
+            {
+              lit: "track#identity-create-alias"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
